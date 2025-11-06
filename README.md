@@ -1,212 +1,195 @@
 # Website Quản Lý Doanh Nghiệp Vận Tải - Vật Tư Xây Dựng
 
-Ứng dụng quản lý **xe tải, tài xế, khách hàng, công nợ, chuyến hàng** và **báo cáo** cho doanh nghiệp vận tải chuyên vật tư xây dựng.
+Hệ thống quản lý doanh nghiệp vận tải và vật tư xây dựng với đầy đủ tính năng quản lý xe tải, tài xế, khách hàng, chuyến hàng, hóa đơn, thanh toán và báo cáo.
 
-## 🚀 Công nghệ sử dụng
+## 🚀 Tính năng chính
 
-- **Frontend:** ReactJS + TypeScript + Ant Design
-- **Backend:** ASP.NET Core 8.0 Web API
-- **Database:** PostgreSQL 15
-- **Triển khai:** Docker Compose
+- **Quản lý Xe Tải**: Quản lý thông tin xe, lịch bảo trì, trạng thái
+- **Quản lý Tài Xế**: Quản lý thông tin tài xế, bằng lái, hiệu suất
+- **Quản lý Khách Hàng**: Quản lý thông tin khách hàng, công nợ
+- **Quản lý Chuyến Hàng**: Quản lý chuyến hàng, tuyến đường, trạng thái
+- **Quản lý Hóa Đơn**: Quản lý hóa đơn, thanh toán, công nợ
+- **Dashboard Tổng Quan**: Thống kê tổng quan với charts và visualizations
+- **Báo Cáo Chi Tiết**: Báo cáo doanh thu, chuyến hàng, xe tải, tài xế, khách hàng với bộ lọc
+
+## 🛠️ Công nghệ sử dụng
+
+### Backend
+- **.NET Core 8.0** - Web API
+- **Entity Framework Core** - ORM
+- **PostgreSQL** - Database
+- **AutoMapper** - Object mapping
+- **JWT Authentication** - Xác thực và phân quyền
+- **Serilog** - Logging
+- **Swagger** - API Documentation
+
+### Frontend
+- **React 19** - UI Framework
+- **TypeScript** - Type safety
+- **Ant Design** - UI Components
+- **Recharts** - Data visualization
+- **Axios** - HTTP client
+- **React Router DOM** - Routing
+
+### Deployment
+- **Docker** - Containerization
+- **Docker Compose** - Orchestration
 
 ## 📋 Yêu cầu hệ thống
 
-- Docker và Docker Compose
-- .NET 8.0 SDK (nếu chạy local)
-- Node.js 18+ (nếu chạy frontend local)
+- Docker Desktop
+- Git
 
-## 🏗️ Cấu trúc dự án
+## 🚀 Cài đặt và chạy
+
+### 1. Clone repository
+
+```bash
+git clone <repository-url>
+cd Transport
+```
+
+### 2. Chạy với Docker Compose
+
+```bash
+docker compose up --build -d
+```
+
+### 3. Truy cập ứng dụng
+
+- **Frontend**: http://localhost:3000
+- **API Swagger**: http://localhost:5000/swagger
+- **Database**: localhost:5432
+
+### 4. Đăng nhập
+
+- **Email**: `admin@example.com`
+- **Password**: `Admin@123`
+
+## 📊 Cấu trúc dự án
 
 ```
 Transport/
 ├── src/
-│   ├── Transport.Api/          # Web API
-│   ├── Transport.Application/  # Business logic, DTOs, Services
-│   ├── Transport.Domain/        # Domain models
-│   └── Transport.Infrastructure/# Data access, DbContext
-├── client/                      # React frontend
-├── docker-compose.yml           # Docker Compose configuration
-└── README.md
+│   ├── Transport.Api/          # API Layer
+│   ├── Transport.Application/   # Application Layer
+│   ├── Transport.Domain/        # Domain Layer
+│   └── Transport.Infrastructure/# Infrastructure Layer
+├── client/                      # React Frontend
+├── docker-compose.yml          # Docker Compose config
+└── README.md                   # Documentation
 ```
 
-## 🚀 Cách khởi chạy
+## 🔐 Authentication & Authorization
 
-### Sử dụng Docker Compose (Khuyến nghị)
+- **JWT Token** - Xác thực người dùng
+- **Refresh Token** - Làm mới token
+- **Role-based Authorization** - Phân quyền theo vai trò:
+  - Admin: Toàn quyền
+  - Dispatcher: Quản lý chuyến hàng
+  - Accountant: Quản lý hóa đơn và thanh toán
 
-1. **Clone dự án:**
-```bash
-git clone <repo-url>
-cd Transport
-```
+## 📈 Báo cáo
 
-2. **Build và chạy:**
-```bash
-docker compose up --build
-```
+### Dashboard
+- Tổng quan: Customers, Trucks, Drivers, Active Trips
+- Doanh thu: Today, This Week, This Month, This Year với growth rate
+- Chuyến hàng: Status breakdown với pie chart
+- Công nợ: Total debt, overdue debt với progress bar
+- Recent trips và top customers
 
-3. **Truy cập ứng dụng:**
-- Frontend: http://localhost:3000
-- API Swagger: http://localhost:5000/swagger
-
-### Chạy local (Development)
-
-#### Backend
-
-1. **Cài đặt PostgreSQL** và tạo database `transportdb`
-
-2. **Cập nhật connection string** trong `src/Transport.Api/appsettings.json`
-
-3. **Chạy API:**
-```bash
-cd src/Transport.Api
-dotnet run
-```
-
-#### Frontend
-
-1. **Cài đặt dependencies:**
-```bash
-cd client
-npm install
-```
-
-2. **Chạy development server:**
-```bash
-npm start
-```
-
-3. **Tạo file `.env` trong thư mục `client`:**
-```
-REACT_APP_API_URL=http://localhost:5000
-```
-
-## 🔐 Đăng nhập
-
-**Tài khoản mặc định:**
-- Email: `admin@example.com`
-- Password: `Admin@123`
-- Role: Admin
-
-**Các role khác:**
-- Dispatcher: `dispatcher@example.com` / `Dispatcher@123`
-- Accountant: (có thể tạo thêm)
-- Driver: (có thể tạo thêm)
-
-## 📚 API Endpoints
-
-### Authentication
-- `POST /api/auth/login` - Đăng nhập
-- `POST /api/auth/refresh` - Refresh token
-
-### Customers
-- `GET /api/customers` - Lấy danh sách khách hàng
-- `GET /api/customers/{id}` - Lấy chi tiết khách hàng
-- `POST /api/customers` - Tạo khách hàng mới
-- `PUT /api/customers/{id}` - Cập nhật khách hàng
-- `DELETE /api/customers/{id}` - Xóa khách hàng
-
-### Trucks
-- `GET /api/trucks` - Lấy danh sách xe tải
-- `GET /api/trucks/{id}` - Lấy chi tiết xe tải
-- `POST /api/trucks` - Tạo xe tải mới
-- `PUT /api/trucks/{id}` - Cập nhật xe tải
-- `DELETE /api/trucks/{id}` - Xóa xe tải
-
-### Drivers
-- `GET /api/drivers` - Lấy danh sách tài xế
-- `GET /api/drivers/{id}` - Lấy chi tiết tài xế
-- `POST /api/drivers` - Tạo tài xế mới
-- `PUT /api/drivers/{id}` - Cập nhật tài xế
-- `DELETE /api/drivers/{id}` - Xóa tài xế
-
-### Trips
-- `GET /api/trips` - Lấy danh sách chuyến hàng
-- `GET /api/trips/{id}` - Lấy chi tiết chuyến hàng
-- `POST /api/trips` - Tạo chuyến hàng mới
-- `PUT /api/trips/{id}` - Cập nhật chuyến hàng
-- `PATCH /api/trips/{id}/status` - Cập nhật trạng thái chuyến hàng
-- `DELETE /api/trips/{id}` - Xóa chuyến hàng
-
-### Invoices
-- `GET /api/invoices` - Lấy danh sách hóa đơn
-- `GET /api/invoices/{id}` - Lấy chi tiết hóa đơn
-- `GET /api/invoices/customer/{customerId}` - Lấy hóa đơn theo khách hàng
-- `POST /api/invoices` - Tạo hóa đơn mới
-- `PUT /api/invoices/{id}` - Cập nhật hóa đơn
-- `DELETE /api/invoices/{id}` - Xóa hóa đơn
-
-### Payments
-- `GET /api/payments` - Lấy danh sách thanh toán
-- `GET /api/payments/{id}` - Lấy chi tiết thanh toán
-- `GET /api/payments/invoice/{invoiceId}` - Lấy thanh toán theo hóa đơn
-- `POST /api/payments` - Tạo thanh toán mới
-- `DELETE /api/payments/{id}` - Xóa thanh toán
-
-### Reports
-- `GET /api/reports/revenue?fromDate=&toDate=` - Báo cáo doanh thu
-- `GET /api/reports/debt` - Báo cáo công nợ
-- `GET /api/reports/trip-status` - Báo cáo trạng thái chuyến hàng
+### Báo cáo chi tiết
+- **Doanh thu**: Theo period, customer, trip với trend analysis
+- **Chuyến hàng**: Theo status, period, truck, driver, customer
+- **Công nợ**: Chi tiết theo khách hàng với overdue tracking
+- **Xe tải**: Utilization, maintenance schedule, performance
+- **Tài xế**: Performance, license expiry tracking
+- **Khách hàng**: Details, revenue, debt analysis
 
 ## 🗄️ Database Schema
 
-### Các bảng chính:
-- `users` - Người dùng hệ thống
-- `customers` - Khách hàng
-- `trucks` - Xe tải
-- `drivers` - Tài xế
-- `trips` - Chuyến hàng
-- `invoices` - Hóa đơn
-- `payments` - Thanh toán
+- **Users**: Người dùng hệ thống
+- **Customers**: Khách hàng
+- **Trucks**: Xe tải
+- **Drivers**: Tài xế
+- **Trips**: Chuyến hàng
+- **Invoices**: Hóa đơn
+- **Payments**: Thanh toán
 
-## 🔒 Phân quyền
+## 🔧 Các lệnh hữu ích
 
-- **Admin:** Toàn quyền truy cập
-- **Accountant:** Quản lý hóa đơn, thanh toán, báo cáo
-- **Dispatcher:** Quản lý xe tải, tài xế, khách hàng, chuyến hàng
-- **Driver:** Xem và cập nhật trạng thái chuyến hàng
+### Docker Compose
+
+```bash
+# Xem logs
+docker compose logs -f api
+docker compose logs -f client
+docker compose logs -f db
+
+# Dừng containers
+docker compose down
+
+# Khởi động lại
+docker compose up -d
+
+# Rebuild
+docker compose up --build -d
+
+# Xem trạng thái
+docker compose ps
+```
+
+### Database
+
+```bash
+# Kết nối database
+docker compose exec db psql -U transport -d transportdb
+
+# Backup database
+docker compose exec db pg_dump -U transport transportdb > backup.sql
+
+# Restore database
+docker compose exec -T db psql -U transport transportdb < backup.sql
+```
 
 ## 📝 Seed Data
 
-Khi khởi động lần đầu, hệ thống sẽ tự động tạo dữ liệu mẫu:
-- 1 admin user
-- 1 dispatcher user
-- 2 khách hàng
-- 3 xe tải
-- 3 tài xế
-- 3 chuyến hàng
+Hệ thống tự động tạo seed data khi khởi động lần đầu:
+- 3 users (Admin, Dispatcher, Accountant)
+- 100 customers
+- 100 trucks
+- 100 drivers
+- 100 trips
+- 100 invoices
+- 100 payments
 
-## 🐳 Docker
+## 🐛 Troubleshooting
 
-### Build và chạy:
+### Lỗi kết nối database
 ```bash
-docker compose up --build
+# Kiểm tra database health
+docker compose ps db
+
+# Restart database
+docker compose restart db
 ```
 
-### Xem logs:
+### Lỗi build frontend
 ```bash
-docker compose logs -f api
-docker compose logs -f client
+# Xóa node_modules và rebuild
+cd client
+rm -rf node_modules
+npm install
+npm run build
 ```
 
-### Dừng và xóa:
+### Lỗi build backend
 ```bash
-docker compose down
-docker compose down -v  # Xóa cả volumes
+# Clean và rebuild
+cd src/Transport.Api
+dotnet clean
+dotnet build
 ```
-
-## 🛠️ Development
-
-### Backend
-- Sử dụng Entity Framework Core với PostgreSQL
-- JWT Authentication với refresh token
-- AutoMapper cho mapping DTOs
-- Serilog cho logging
-
-### Frontend
-- React Router cho routing
-- Axios cho API calls
-- Ant Design cho UI components
-- TypeScript cho type safety
 
 ## 📄 License
 
@@ -214,9 +197,8 @@ MIT License
 
 ## 👥 Contributors
 
-- [Your Name]
+- Initial development
 
-## 📞 Support
+## 📞 Liên hệ
 
-Nếu có vấn đề, vui lòng tạo issue trên GitHub repository.
-
+Nếu có vấn đề hoặc câu hỏi, vui lòng tạo issue trên GitHub.
