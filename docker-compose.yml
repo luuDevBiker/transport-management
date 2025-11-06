@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: transport_db
+    environment:
+      POSTGRES_USER: transport
+      POSTGRES_PASSWORD: transportpwd
+      POSTGRES_DB: transportdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U transport"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: ./src/Transport.Api/Dockerfile
+    container_name: transport_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - ConnectionStrings__Default=Host=db;Port=5432;Database=transportdb;Username=transport;Password=transportpwd
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./logs:/app/logs
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: transport_client
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+
