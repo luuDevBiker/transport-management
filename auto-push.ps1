@@ -8,7 +8,7 @@ param(
     [int]$WaitSeconds = 5
 )
 
-$username = "DevPuPuBug"
+$username = "luuDevBiker"
 $repoUrl = "https://github.com/$username/$RepoName.git"
 
 Write-Host "=== AUTO-PUSH TO GITHUB ===" -ForegroundColor Cyan

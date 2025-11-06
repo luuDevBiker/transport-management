@@ -4,7 +4,7 @@ param(
     [string]$RepoName = "transport-management"
 )
 
-$username = "DevPuPuBug"
+$username = "luuDevBiker"
 $repoUrl = "https://github.com/$username/$RepoName.git"
 
 Write-Host "=== PUSHING TO GITHUB ===" -ForegroundColor Cyan
